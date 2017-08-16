@@ -13,5 +13,9 @@ class User extends Base
 
     public function checkValid($scene='add')
     {
+        $validate = new Validate([
+            'name'  => 'require|max:25',
+            'email' => 'email'
+        ]);
     }
 }
