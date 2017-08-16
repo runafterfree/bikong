@@ -10,12 +10,9 @@
 // +----------------------------------------------------------------------
 
 return [
-    '__pattern__' => [
-        'name' => '\w+',
+    '[user]'=> [
+        '/login/' =>['index/user/login'],
+        '/reg/' => ['index/user/reg'],
+        '/findpwd/'=>['index/findpwd/findpwd'],
     ],
-    '[hello]'     => [
-        ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
-        ':name' => ['index/hello', ['method' => 'post']],
-    ],
-
 ];
