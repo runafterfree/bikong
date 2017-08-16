@@ -15,4 +15,7 @@ return [
         '/reg/' => ['index/user/reg'],
         '/findpwd/'=>['index/findpwd/findpwd'],
     ],
+    '[base]'=>[
+        '/valicode/'=>['index/base/valicode'],
+    ],
 ];
