@@ -13,7 +13,8 @@ return [
     '[user]'=> [
         '/login/' =>['index/user/login'],
         '/reg/' => ['index/user/reg'],
-        '/findpwd/'=>['index/findpwd/findpwd'],
+        '/findpwd/'=>['index/user/findpwd'],
+        '/checkValid/'=>['index/user/checkValid'],
     ],
     '[base]'=>[
         '/valicode/'=>['index/base/valicode'],
