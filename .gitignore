@@ -2,3 +2,6 @@
 composer.lock
 *.log
 thinkphp
+webcrawl/.idea/
+webcrawl/webcrawl/__pycache__/
+webcrawl/webcrawl/spiders/__pycache__/
