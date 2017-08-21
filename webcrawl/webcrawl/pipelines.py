@@ -18,9 +18,7 @@ class NoticeDbPipeLine(object):
         data['site'] = item['site']
         data['link'] = item['link']
         data['update_time'] = item['update_time']
-        #print(data['title'],data['site'],data['update_time'],data['link'],item['body'])
-        #exit()
-        self.mysql.autoExecute('b_notice',data,'INSERT')
+        print(data['title'],data['site'],data['update_time'],data['link'],item['body'])
         pass
 
 

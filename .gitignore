@@ -2,6 +2,7 @@
 composer.lock
 *.log
 thinkphp
+runtime/
 webcrawl/.idea/
 webcrawl/webcrawl/__pycache__/
 webcrawl/webcrawl/spiders/__pycache__/

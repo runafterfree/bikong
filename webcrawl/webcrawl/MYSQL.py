@@ -58,34 +58,22 @@ class MYSQL:
         #查询完毕后必须关闭连接
         self.conn.close()
         return resList
-
-    def autoExecute(self, tablename, data, act='INSERT', where=''):
-        """执行数据更新或者数据插入"""
-        #print(data)
-        keys = data.keys();
-        if act == 'INSERT':
-            sql = 'INSERT INTO '+tablename+'('+','.join(keys)+') VALUES('
-            for k,v in data.items():
-                sql += "'"+addslashes(str(v))+"',"
-            sql = sql[0:-1]+')'
-            print(sql)
-        else:
-            sql = 'UPDATE '+tablename+' SET '
-            for k,v in data:
-                sql += k+"='"+addslashes(v)+"',"
-            sql = sql[0:-1]+ where
-
+    
+    def execInsert(self, tablename, data):
+        sql = 'INSERT INTO '+tablename+'('+','.join(data.keys())+') VALUES('
+        for k,v in data.items():
+            sql += "'"+addslashes(str(v))+"',"
+        sql = sql[0:-1]+')'
+        print(sql)
         cur = self.__GetConnect()
         try:
             cur.execute(sql)
+            #cur.commit()
         except:
             raise Exception("执行语句 %s 失败: %s" % (sql,cur.Error))
         finally:
             self.conn.close()
-        if act == 'INSERT':
-            return cur.lastrowid
-        else:
-            return cur.rowcount
+        return cur.lastrowid
 
 if __name__ == '__main__':
     mysql = MYSQL(host="127.0.0.1",user="root",pwd="123456",db="bikong")

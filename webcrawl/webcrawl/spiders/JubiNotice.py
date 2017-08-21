@@ -39,9 +39,8 @@ class JubiNoticeSpider(scrapy.Spider):
         item['title'] = response.xpath('//h1/text()')[0].extract()
         item['site'] = 'jubi'
         item['update_time'] = int(time.time())
-        item['body'] = "1"
-        #for p in response.xpath('//div[@class="about_text"]/p'):
-        #    body = body+p.xpath('text()')[0].extract()
-        #item['body'] = body
-        #print(item['title'], item['link'], item['update_time'])
+        body = ''
+        for sel in response.xpath('//div[@class="about_text"]/p/span'):
+            body += sel.xpath('string(.)')[0].extract()+'<br />'
+        item['body'] = body
         yield item
