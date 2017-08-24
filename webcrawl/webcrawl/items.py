@@ -7,13 +7,6 @@
 
 import scrapy
 
-class NoticeItem(scrapy.Item):
-    title = scrapy.Field()
-    link = scrapy.Field()
-    update_time = scrapy.Field()
-    site = scrapy.Field()
-    body = scrapy.Field()
-
 class WebcrawlItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()

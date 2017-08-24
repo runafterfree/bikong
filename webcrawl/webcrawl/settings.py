@@ -64,9 +64,9 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-    'webcrawl.pipelines.NoticeDbPipeLine': 300,
-}
+#ITEM_PIPELINES = {
+#    'webcrawl.pipelines.NoticeDbPipeLine': 300,
+#}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
@@ -89,10 +89,11 @@ ITEM_PIPELINES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-DATABASE = {'drivername': 'mysql',
-            'host': '127.0.0.1',
-            'port': '3306',
-            'username': 'root',
-            'password': '123456',
-            'database': 'bikong',
-            'charset': 'utf8'}
+DATABASE = {
+    'drivername': 'mysql',
+    'host': '127.0.0.1',
+    'user': 'root',
+    'password': '123456',
+    'db': 'bikong',
+    'charset': 'utf8'
+}

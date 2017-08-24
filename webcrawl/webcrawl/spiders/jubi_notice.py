@@ -2,7 +2,7 @@
 # -*- encoding: utf-8 -*-
 
 import scrapy
-from webcrawl.items import NoticeItem
+from webcrawl.items_notice import NoticeItem
 import time
 
 class JubiNoticeSpider(scrapy.Spider):
@@ -11,6 +11,11 @@ class JubiNoticeSpider(scrapy.Spider):
     start_urls = [
         'https://www.jubi.com/'
     ]
+    custom_settings = {
+        'ITEM_PIPELINES':{
+            'webcrawl.pipelines.NoticeDbPipeLine': 300,
+        },
+    }
 
     def __init__(self):
         pass
