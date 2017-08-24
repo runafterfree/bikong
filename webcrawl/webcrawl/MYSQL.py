@@ -2,8 +2,8 @@
 #!/usr/bin/python
 import pymysql
 
-def addslashes(s):
-    return s
+def addslashes(v):
+    return v
 
 class MYSQL:
     """
@@ -23,22 +23,33 @@ class MYSQL:
         """
         if not self.db:
             raise Exception("没有设置数据库信息")
-        self.conn = pymysql.connect(host=self.host,user=self.user,password=self.pwd,database=self.db,charset=self.char)
-        cur = self.conn.cursor()
-        if not cur:
-            raise Exception("连接数据库失败")
-        else:
-            return cur
+        try:
+            conn = pymysql.connect(
+                host=self.host,
+                user=self.user,
+                password=self.pwd,
+                database=self.db,
+                charset=self.char
+            )
+        except:
+            raise Exception("数据库连接失败")
+        if not conn:
+            return None
+        return conn
 
     def GetRow(self,sql,param=None):
         """
         获得单条记录
         """
-        cur = self.__GetConnect()
-        cur.execute(sql)
-        res = cur.fetchone()
-        #查询完毕后必须关闭连接
-        self.conn.close()
+        try:
+            conn = self.__GetConnect()
+            with conn.cursor() as cur:
+                cur.execute(sql,param)
+                res = cur.fetchone()
+        except:
+            raise Exception("查询数据失败：%s" % sql)
+        finally:
+            conn.close()
         return res
 
 
@@ -52,30 +63,57 @@ class MYSQL:
                 for (id,NickName) in resList:
                     print str(id),NickName
         """
-        cur = self.__GetConnect()
-        cur.execute(sql)
-        resList = cur.fetchall()
-        #查询完毕后必须关闭连接
-        self.conn.close()
-        return resList
-    
-    def execInsert(self, tablename, data):
-        sql = 'INSERT INTO '+tablename+'('+','.join(data.keys())+') VALUES('
-        for k,v in data.items():
-            sql += "'"+addslashes(str(v))+"',"
-        sql = sql[0:-1]+')'
-        print(sql)
-        cur = self.__GetConnect()
         try:
-            cur.execute(sql)
-            #cur.commit()
+            conn = self.__GetConnect()
+            with conn.cursor() as cur:
+                cur.execute(sql,param)
+                res = cur.fetchall()
         except:
-            raise Exception("执行语句 %s 失败: %s" % (sql,cur.Error))
+            raise Exception("查询数据失败：%s" % sql)
         finally:
-            self.conn.close()
-        return cur.lastrowid
+            conn.close()
+        return res
+
+    def insert(self, table, data):
+        conn = self.__GetConnect()
+        try:
+            sql = "INSERT INTO " + table + "(" + ",".join(data.keys()) + ") VALUES(";
+            for k in data:
+                sql += "'" + addslashes(data[k]) + "',"
+            sql = sql[0:-1] + ")";
+
+            with conn.cursor() as cur:
+                cur.execute(sql)
+                conn.commit()
+                lastid = cur.lastrowid
+        except:
+            conn.rollback()
+            raise Exception("运行语句失败:%s" %(sql))
+        finally:
+            conn.close()
+        if not lastid:
+            return None
+        return lastid
+
+    def update(self, table, data, where):
+        conn = self.__GetConnect()
+        try:
+            sql = "UPDATE " + table + " SET ";
+            for k in data:
+                sql += str(k) + "='" + addslashes(str(data[k])) + "',"
+            sql = sql[0:-1]+ ' where '+where
+            with conn.cursor() as cur:
+                cur.execute(sql)
+                conn.commit()
+                rowcount = cur.rowcount
+        except:
+            conn.rollback()
+            raise Exception("运行语句失败:%s" %(sql))
+        finally:
+            conn.close()
+        return rowcount
 
 if __name__ == '__main__':
     mysql = MYSQL(host="127.0.0.1",user="root",pwd="123456",db="bikong")
-    res = mysql.GetRow("select spec_name,spec_id FROM spec_yunbi")
+    res = mysql.insert('b_site',{'site_enname':'yunbi','site_name':'云币网','site_url':'https://yunbi.com'})
     print(res)
