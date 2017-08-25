@@ -1,27 +1,32 @@
 # -*- coding: utf-8 -*-
+#from daemon import Daemon
+from MYSQL import MYSQL
+import sys, time
 from daemon import Daemon
-from webcrawl import settings
 
 class PriceDaemon(Daemon):
     '''生成价格通知'''
 
     def run(self):
-        self.mysql = MYSQL(host=settings['DATABASE']['host'],
-                           user=settings['DATABASE']['user'],
-                           pwd=settings['DATABASE']['password'],
-                           db=settings['DATABASE']['db'],
-                           char=settings['DATABASE']['charset'])
+        #mysql = MYSQL(host="127.0.0.1", user="root", pwd="123456", db="bikong")
+        mysql = self.mysql
 
         while True:
-            rows = self.mysql.getAll("SELECT spec_id,price FROM b_price ORDER BY update_time DESC LIMIT 100")
-            for row in rows:
-                notifys = self.mysql.getAll("SELECT pid,uid,spec_id,note FROM b_price_notify WHERE "
-                                            "(price<%s AND op=0 ) OR (price>%s AND op=1) AND spec_id=%s)"
-                                            %(row['price'], row['spec_id']))
-                for  n in notifys:
-                    data = {'pid': n['pid'], 'msg': $n['note'] }
-                    self.mysql.execInsert('b_queue', data)
+            try:
+                rows = mysql.getAll("SELECT n.pid,n.note,n.uid,n.tel,n.email FROM b_spec s,b_price_notify n WHERE s.active=1 AND n.spec_id=s.spec_id"
+                                    + " AND ((n.op=0 AND s.price>n.price) OR (n.op=1 AND s.price<n.price)) AND n.step=0")
+                for row in rows:
+                    pid, msg, uid, tel, email = row
+                    data = {'pid': pid, 'msg': msg, 'uid': uid, 'tel': tel, 'email': email}
+                    mysql.insert('b_queue', data)
+                    mysql.executeNonQuery("UPDATE b_price_notify SET step=2 WHERE pid='%s'" %(pid) )
+            except Exception as e:
+                sys.stderr.write(str(e))
+            time.sleep(5)
         pass
-
-
     pass
+
+
+if __name__ == '__main__':
+    daemon = PriceDaemon()
+    daemon.run()

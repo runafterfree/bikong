@@ -37,7 +37,7 @@ class MYSQL:
             return None
         return conn
 
-    def GetRow(self,sql,param=None):
+    def getRow(self,sql,param=None):
         """
         获得单条记录
         """
@@ -53,7 +53,7 @@ class MYSQL:
         return res
 
 
-    def GetAll(self,sql,param=None):
+    def getAll(self,sql,param=None):
         """
         执行查询语句
         返回的是一个包含tuple的list，list的元素是记录行，tuple的元素是每行记录的字段
@@ -81,6 +81,7 @@ class MYSQL:
             for k in data:
                 sql += "'" + addslashes(str(data[k])) + "',"
             sql = sql[0:-1] + ")"
+            print(sql)
 
             with conn.cursor() as cur:
                 cur.execute(sql)

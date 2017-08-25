@@ -16,10 +16,14 @@ class Base extends Controller
     public function valicode()
     {
         $valicode = mt_rand(100000,999999);
-        //Session::set('valicode', $valicode);
-        //Session::set('reg_tel', $this->param['tel']);
-        Session::set('valicode', '111111');
-        Session::set('reg_tel', '13798251605');
+        Session::set('valicode', $valicode);
+        Session::set('reg_tel', $this->param['tel']);
+        $send_time = Session::get('send_time', 0);
+        if($send_time)
+            Session::set('send_time', $send_time+1);
+
+        //Session::set('valicode', '111111');
+        //Session::set('reg_tel', '13798251605');
         echo 1;
         exit;
     }

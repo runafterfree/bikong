@@ -3,15 +3,21 @@
 #python模拟linux的守护进程  
 import sys, os, time, atexit, string  
 from signal import SIGTERM  
-  
+from MYSQL import MYSQL
+
 class Daemon:
   def __init__(self, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):  
-      #需要获取调试信息，改为stdin='/dev/stdin', stdout='/dev/stdout', stderr='/dev/stderr'，以root身份运行。  
-    self.stdin = stdin  
+    #需要获取调试信息，改为stdin='/dev/stdin', stdout='/dev/stdout', stderr='/dev/stderr'，以root身份运行。
+    self.stdin = stdin
     self.stdout = stdout  
     self.stderr = stderr  
     self.pidfile = pidfile
-    
+    self.mysql = MYSQL(host='127.0.0.1',
+                           user='root',
+                           pwd='123456',
+                           db='bikong',
+                           char='utf-8')
+
   def _daemonize(self):  
     try:  
       pid = os.fork()    #第一次fork，生成子进程，脱离父进程  
@@ -106,15 +112,13 @@ class Daemon:
   
   def _run(self):  
     """ run your fun"""  
-    while True:  
-      #fp=open('/tmp/result','a+')  
-      #fp.write('Hello World\n')  
+    while True:
       sys.stdout.write('%s:hello world\n' % (time.ctime(),))  
       sys.stdout.flush()   
       time.sleep(2)  
       
   
-if __name__ == '__main__':  
+if __name__ == '__main__':
     daemon = Daemon('/tmp/watch_process.pid', stdout = '/tmp/watch_stdout.log')  
     if len(sys.argv) == 2:  
         if 'start' == sys.argv[1]:  

@@ -4,5 +4,5 @@ composer.lock
 thinkphp
 runtime/
 webcrawl/.idea/
-webcrawl/webcrawl/__pycache__/
-webcrawl/webcrawl/spiders/__pycache__/
+*/__pycache__/
+webcrawl/logs/

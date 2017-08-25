@@ -9,9 +9,10 @@ import scrapy
 
 
 class PriceItem(scrapy.Item):
+    spec_id = scrapy.Field()
     price = scrapy.Field()
-    update_time = scrapy.Field()
     volumn = scrapy.Field()
     sales = scrapy.Field()
+    update_time = scrapy.Field()
     site_id = scrapy.Field()
-    spec = scrapy.Field()
+
