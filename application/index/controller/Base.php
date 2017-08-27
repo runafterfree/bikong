@@ -56,9 +56,10 @@ class Base extends Controller
         $clnt = YunpianClient::create('304ab9c0aa24a69869052441f9afbe08');
         $param = [YunpianClient::MOBILE => $tel,YunpianClient::TEXT => '【币控网】'.$msg];
         $r = $clnt->sms()->single_send($param);
-        if($r.code())
+        $r = json_decode($r,true);
+        if($r['code'])
         {
-            print_r($r.msg());
+            print_r($r['msg']);
             return false;
         }
         return true;
