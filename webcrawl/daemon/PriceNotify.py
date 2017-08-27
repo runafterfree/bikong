@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 #from daemon import Daemon
-from MYSQL import MYSQL
+from daemon import Base
+from webcrawl.MYSQL import MYSQL
 import sys, time
-from daemon import Daemon
 
-class PriceDaemon(Daemon):
+class PriceNotify(Base):
     '''生成价格通知'''
 
-    def _run(self):
-        #mysql = MYSQL(host="127.0.0.1", user="root", pwd="123456", db="bikong")
+    def run(self):
         mysql = self.mysql
 
         while True:
@@ -26,22 +25,6 @@ class PriceDaemon(Daemon):
         pass
     pass
 
-
 if __name__ == '__main__':
-    daemon = PriceDaemon('/tmp/price_process.pid', stdout='/tmp/price_stdout.log')
-    if len(sys.argv) == 2:
-        if 'start' == sys.argv[1]:
-            daemon.start()
-        elif 'stop' == sys.argv[1]:
-            daemon.stop()
-        elif 'restart' == sys.argv[1]:
-            daemon.restart()
-        else:
-            print
-            'unknown command'
-            sys.exit(2)
-        sys.exit(0)
-    else:
-        print
-        'usage: %s start|stop|restart' % sys.argv[0]
-        sys.exit(2)
+    daemon = PriceNotify()
+    daemon.run()
