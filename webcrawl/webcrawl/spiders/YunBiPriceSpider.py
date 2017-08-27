@@ -5,8 +5,8 @@ import scrapy
 from webcrawl.items_price import PriceItem
 import json
 
-class JubiPriceSpider(scrapy.Spider):
-    name = 'yunbi_price'
+class YunbiPriceSpider(scrapy.Spider):
+    name = 'YunbiPriceSpider'
     allowed_domains = ["yunbi.com"]
     start_urls = [
         'https://yunbi.com/api/v2/tickers.json'

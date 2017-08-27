@@ -6,7 +6,7 @@ from webcrawl.items_notice import NoticeItem
 import time
 
 class JubiNoticeSpider(scrapy.Spider):
-    name = 'jubi_notice'
+    name = 'JubiNoticeSpider'
     allowed_domains = ["jubi.com"]
     start_urls = [
         'https://www.jubi.com/'
