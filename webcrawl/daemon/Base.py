@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from webcrawl.MYSQL import MYSQL
+from MYSQL import MYSQL
 from scrapy.utils.project import get_project_settings
 
 class Base():

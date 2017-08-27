@@ -6,7 +6,7 @@ from email.header import Header
 from yunpian_python_sdk.model import constant as YC
 from yunpian_python_sdk.ypclient import YunpianClient
 from daemon import Base
-from webcrawl.MYSQL import MYSQL
+from MYSQL import MYSQL
 
 
 class QueueDaemon(Base):
