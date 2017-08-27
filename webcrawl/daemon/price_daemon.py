@@ -7,7 +7,7 @@ from daemon import Daemon
 class PriceDaemon(Daemon):
     '''生成价格通知'''
 
-    def run(self):
+    def _run(self):
         #mysql = MYSQL(host="127.0.0.1", user="root", pwd="123456", db="bikong")
         mysql = self.mysql
 
