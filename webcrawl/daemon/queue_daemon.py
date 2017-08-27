@@ -12,7 +12,7 @@ from yunpian_python_sdk.ypclient import YunpianClient
 class QueueDaemon(Daemon):
     '''处理消息队列'''
 
-    def run(self):
+    def _run(self):
         #mysql = MYSQL(host="127.0.0.1", user="root", pwd="123456", db="bikong")
         mysql = self.mysql
         self.clnt = YunpianClient('304ab9c0aa24a69869052441f9afbe08')

@@ -13,8 +13,8 @@ class Daemon:
     self.stderr = stderr  
     self.pidfile = pidfile
     self.mysql = MYSQL(host='127.0.0.1',
-                           user='root',
-                           pwd='123456',
+                           user='cy',
+                           pwd='Aizhan@1405',
                            db='bikong',
                            char='utf-8')
 

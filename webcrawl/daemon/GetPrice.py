@@ -8,7 +8,7 @@ from scrapy.utils.project import get_project_settings
 class GetPriceDaemon(Daemon):
     '''获得价格'''
 
-    def run(self):
+    def _run(self):
         while True:
             process = CrawlerProcess(get_project_settings())
 
