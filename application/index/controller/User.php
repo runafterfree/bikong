@@ -23,7 +23,7 @@ class User extends Base
     {
         if($this->isPost)
         {
-            $re = $this->checkValid('reg');
+            $re = $this->checkValid('add');
             if($re!='success')
                 $this->error($re, '/user/reg/');
 
@@ -32,7 +32,7 @@ class User extends Base
             Db::execute($sql,['name'=>$this->param['name'],'pwd'=>md5($this->param['pwd']),
                 'tel'=>$tel, 'reg_time'=>time()]);
 
-            $this->success('注册成功','/user/loign/');
+            $this->success('注册成功','/user/login/');
         }
         return $this->fetch('user/reg');
     }
@@ -156,8 +156,8 @@ EOT;
         $validation = new Validate([
             'name'=>'require|min:6|max:30|db_unique',
             'pwd'=>'require|min:8|max:30|confirm:pwd_confirm',
-            'tel'=>'regex:1\d{10}|tel_unique',
-            'valicode'=>'same',
+            'tel'=>'require|tel_unique',
+            'valicode'=>'require|same',
         ],[
             'name.require'=>'用户名不能为空',
             'name.min'=>'用户名在6-20个字符',
@@ -165,22 +165,28 @@ EOT;
             'pwd.min'=>'密码在8到30字符',
             'pwd.max'=>'密码在8到30字符',
             'pwd.confirm'=>'两次输入的密码不一致',
-            'tel.regex'=>'请填入有效的手机号',
+            'tel.require'=>'手机号不能为空',
+            'valicode.require'=>'验证码不能为空',
         ]);
         $validation->extend('same',function($value){
-            return $value==Session::get('valicode') ? true : '验证码不正确';
+            $limit = Session::get('limit');
+            if(!isset($limit['valicode']) || $value!=$limit['valicode'])
+                return '验证码不正确';
+            return true;
         });
         $validation->extend('db_unique',function($value){
             $data = Db::table('b_user')->field('uid')->where(['name'=>$value])->find();
             return !$data ? true : '用户名已存在';
         });
         $validation->extend('tel_unique',function($value){
+            if(!preg_match('/^1\d{10}$/', $value))
+                return '手机格式不正确';
             $data = Db::table('b_user')->field('uid')->where(['tel'=>$value])->find();
             return !$data ? true : '手机号已注册';
         });
         $validation->scene('add',['name','pwd','tel','valicode']);
-        $validation->scene('reg', ['name','pwd', 'tel']);
-        $result = $validation->scene('add')->batch()->check($this->param);
+        //$validation->scene('reg', ['name','pwd', 'tel','valicode']);
+        $result = $validation->batch()->check($this->param);
         if(!$result){
             if($this->isAjax)
             {

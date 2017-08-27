@@ -36,16 +36,17 @@ class Base extends Controller
         if(!$this->sendtel($this->param['tel'], '您的验证码是'.$valicode.'。如非本人操作，请忽略本短信。'))
             die('发生未知错误');
         
-
         if($limit && $limit['expire']<time()+7200)
         {
+            $limit['valicode'] = $valicode;
             $limit['send_times'] += 1;
         }
         else
         {
-            $limit = ['send_times'=>1, 'expire'=>(time()+7200)];
+            $limit = ['send_times'=>1, 'expire'=>(time()+7200),'valicode'=>$valicode];
         }
         Session::set('limit', $limit);
+        Session::set('reg_tel', $this->param['tel']);
 
         echo 'success';
         exit;

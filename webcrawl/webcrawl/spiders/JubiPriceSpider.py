@@ -101,6 +101,3 @@ class JubiPriceSpider(scrapy.Spider):
                     yield item
         except:
             raise Exception('get json data failed : %s' %(response.body))
-        time.sleep(5)
-        url = 'https://www.jubi.com/coin/allcoin?t=%s' %(str(time.time()))
-        yield scrapy.Request(url, callback=self.parse)
