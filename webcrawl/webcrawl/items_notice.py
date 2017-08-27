@@ -11,5 +11,5 @@ class NoticeItem(scrapy.Item):
     title = scrapy.Field()
     link = scrapy.Field()
     update_time = scrapy.Field()
-    site = scrapy.Field()
+    site_id = scrapy.Field()
     body = scrapy.Field()

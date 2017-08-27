@@ -1,11 +1,11 @@
 {layout name="layout"}
 <header class="bar bar-nav">
-    <h1 class="title">注册币控网</h1>
+    <a class="icon icon-left pull-left" href="/"></a><h1 class="title">注册币控网</h1>
 </header>
 
 <div class="content">
     <div class="list-block">
-        <form action="/user/reg/" method="post" accept-charset="utf-8" name="form" class="form-horizontal" id="form2">
+        <form action="/user/reg/" method="post" accept-charset="utf-8" name="regform" class="form-horizontal" id="regform">
         <ul>
             <li>
               <div class="item-content">
@@ -22,7 +22,7 @@
                 <div class="item-media"><i class="icon icon-form-password"></i></div>
                 <div class="item-inner">
                   <div class="item-input">
-                    <input type="password" placeholder="密码" class="" name="pwd" id="pwd">
+                    <input type="password" placeholder="密码"  name="pwd" id="pwd">
                   </div>
                 </div>
               </div>
@@ -32,14 +32,14 @@
                 <div class="item-media"><i class="icon icon-form-password"></i></div>
                 <div class="item-inner">
                   <div class="item-input">
-                    <input type="password" placeholder="重复密码" class="" name="pwd_confirm" id="pwd_confirm">
+                    <input type="password" placeholder="重复密码" name="pwd_confirm" id="pwd_confirm">
                   </div>
                 </div>
               </div>
             </li>
             <li>
               <div class="item-content">
-                <div class="item-media"><i class="icon icon-tel"></i></div>
+                <div class="item-media"><i class="icon icon-form-tel"></i></div>
                 <div class="item-inner">
                   <div class="item-input">
                     <input type="text" placeholder="手机号" name="tel" id="tel">
@@ -49,7 +49,7 @@
             </li>
             <li>
               <div class="item-content">
-                <div class="item-media"><i class="icon icon-tel"></i></div>
+                <div class="item-media"><i class="icon icon-form-comment"></i></div>
                 <div class="item-inner">
                     <div class="row" style="margin-left:0;width:100%;">
                         <div class="col-50" style="margin-left:0">
@@ -81,9 +81,17 @@
         function sendcode()
         {
             var tel=$('#tel').val();
+            if(!tel.match(/^1\d{10}$/))
+            {
+                $.alert('手机号码格式不正确');
+                return;
+            }
             window.setTimeout("countdown("+60+")",1000);
             $.get('/base/valicode', {tel:tel}, function(data,status){
-                $('#tel').attr('placeholder','验证码已发送');
+                if(data=='success')
+                    $('#tel').attr('placeholder','验证码已发送');
+                else
+                    $.alert(data);
             });
         }
 
@@ -112,7 +120,12 @@
             var tel = $('#tel').val();
             var valicode = $('#valicode').val();
             $.get('/user/checkValid', {name:name,pwd:pwd,pwd_confirm:pwd_confirm,tel:tel,valicode:valicode,scene:'add'},function(data,status){
-                
+                if(data!='success')
+                {
+                    $.alert(data)
+                    return
+                }
+                $('#regform').submit();
             });
         }
     </script>

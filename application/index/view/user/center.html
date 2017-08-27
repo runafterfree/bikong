@@ -1,0 +1,169 @@
+{layout name="layout"}
+<header class="bar bar-nav">
+    <a class="icon icon-left pull-left" href="/"></a><h1 class="title">用户中心</h1>
+    <button class="button pull-right" onclick="window.location.href='/user/logout/';">{$Think.session.user.name}(退出)</button>
+</header>
+<div class="content">
+  <div class="buttons-tab">
+    <a href="#tab1" class="tab-link active button">价格通知</a>
+    <a href="#tab2" class="tab-link button">上线通知</a>
+    <a href="#tab3" class="tab-link button">设定</a>
+  </div>
+  <div class="content-block">
+    <div class="tabs">
+      <div id="tab1" class="tab active">
+
+<!--价格通知表单-->
+<div class="popup popup-price">
+    <div class="list-block">
+        <h3 style="text-align:center;">定制价格通知</h3>
+        <ul>
+          <li>
+            <div class="item-content">
+              <div class="item-inner">
+                <div class="item-title label">站点</div>
+                <div class="item-input">
+                  <select name="site_id" id="site_id" onchange="getspec();">
+                      {volist name="Think.config.site" id="sitename" key="k"}
+                      <option value="{$k}">{$sitename}</option>
+                      {/volist}
+                  </select>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content">
+              <div class="item-inner">
+                <div class="item-title label">币种</div>
+                <div class="item-input">
+                  <select name="spec_id" id="spec_id"></select>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content">
+              <div class="item-inner">
+                <div class="item-title label">条件</div>
+                <div class="item-input">
+                  <select name="op" id="op" style="width:20%;display:inline;">
+                  <option value="0">大于</option>
+                  <option value="1">小于</option>
+                  </select><input type="text" name="price" id="price" value="" style="width:40%;display:inline;border:1px solid #ededed;height:1.5rem;"/>元
+                </div>
+              </div>
+            </div>
+          </li>
+      </ul>
+           <div class="row" style="margin-top:20px;">
+            <div class="col-50"><a href="javascript:addprice();" class="button button-big button-fill button-success">保存</a></div>
+              <div class="col-50"><a href="javascript:void(0)" data-popup=".popup-price"  class="button button-big button-fill button-danger close-popup">取消</a></div>
+            </div>
+      </div>
+</div>
+
+        <div class="content-block">
+          <p class="block-title"><a href="javascript:void(0);" data-popup=".popup-price"  class="button button-big button-success open-popup" style="background-color:#4cd964;color:#fff;" id="dj_button">定制价格通知</a></p>
+          {volist name="list" id="l"}
+          <div class="card item{$l.pid}">
+            <div class="card-content">
+              <div class="card-content-inner">短信内容：{$l.note}&nbsp;&nbsp;<small>(触发条件：
+              {if condition="($l.op==0)"}价格>{$l.price|floatval=###}元
+              {else /}
+              价格<{$l.price|floatval=###}元
+              {/if}
+              )</small><br />
+              <small>手机号：{$l.tel} &nbsp;&nbsp;添加时间：{$l.add_time|date='Y-m-d H:i',###}</small>
+              </div>
+            </div>
+            <div class="card-footer"> <a class="link" href="javascript:del({$l.pid})">删除</a></div>
+          </div>
+          {/volist}
+        </div>
+      </div>
+      <div id="tab2" class="tab">
+        <div class="content-block">
+          <p>正在加紧开发中……</p>
+        </div>
+      </div>
+      <div id="tab3" class="tab">
+        <div class="content-block">
+          <p>正在加紧开发中……</p>
+        </div>
+      </div>
+    </div>
+   </div>
+
+</div>
+
+<script>
+Zepto(function($){
+  getspec();
+})
+
+function getspec()
+{
+    var site_id = $('#site_id').val();
+    $.getJSON('/user/getspec',{site_id:site_id},function(data){
+        if(data['status']!='success')
+        {
+            $.alert('币种加载失败...')
+            return
+        }
+        
+        var str = '';
+        for(var i in data['data'])
+        {
+            str += '<option value="'+i+'">'+data['data'][i]+'</option>';
+        }
+        $('#spec_id').html(str);
+    });
+}
+
+function addprice()
+{
+    var site_id = $('#site_id').val();
+    var spec_id = $('#spec_id').val();
+    var op = $('#op').val();
+    var price = $('#price').val();
+    if(parseInt(site_id)==0)
+    {
+        $.alert('请选择站点');
+        return;
+    }
+    if(parseInt(spec_id)==0)
+    {
+        $.alert('请选择币种');
+        return;
+    }
+    if(price=='' || parseFloat(price)==0)
+    {
+        $.alert('请填写价格');
+        return;
+    }
+
+    $.post('/user/savePriceNotify', {site_id:site_id,spec_id:spec_id,op:op,price:price},function(data){
+        o = eval('('+data+');');
+        if(o['status']!='success')
+        {
+            $.alert(o['status']);
+            return;
+        }
+        $('#price').val('');
+        $('.block-title').after(o['content']);
+        $.closeModal('.popup-price')
+    });
+}
+function del(pid)
+{
+    $.get('/user/delpid',{pid:pid},function(data){
+        if(data!='success')
+        {
+            $.alert(data);
+            return;
+        }
+        $('.item'+pid).remove();
+    });
+}
+</script>

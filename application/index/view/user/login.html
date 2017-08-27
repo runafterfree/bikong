@@ -1,0 +1,63 @@
+{layout name="layout"}
+<header class="bar bar-nav">
+    <a class="icon icon-left pull-left" href="/"></a><h1 class="title">用户登录</h1>
+</header>
+
+<div class="content">
+    <div class="list-block">
+        <form action="/user/login/" method="post" accept-charset="utf-8" name="loginform" class="form-horizontal" id="loginform">
+        <ul>
+            <li>
+              <div class="item-content">
+                <div class="item-media"><i class="icon icon-form-name"></i></div>
+                <div class="item-inner">
+                  <div class="item-input">
+                    <input type="text" placeholder="用户名" name="name" id="name">
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-media"><i class="icon icon-form-password"></i></div>
+                <div class="item-inner">
+                  <div class="item-input">
+                    <input type="password" placeholder="密码"  name="pwd" id="pwd">
+                  </div>
+                </div>
+              </div>
+            </li>
+        </ul>
+
+        <div class="content-block">
+            <div class="row">
+            <div class="col-33">&nbsp;</div>
+            <div class="col-33">
+                <button name="register" id="register2" type="submit" class="button button-big button-fill button-success" onsubmit="return checkvalid()">登&nbsp;&nbsp;录</button><br />
+                <a href="/user/reg/">注册</a>
+                &nbsp;&nbsp;<a href="/user/findpwd/">找回密码</a>
+            </div>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+        function checkvalid()
+        {
+            var name = $('#name').val();
+            var pwd = $('#pwd').val();
+            if(name=='')
+            {
+                $.alert('请输入用户名');
+                return false;
+            }
+            if(pwd=='')
+            {
+                $.alert('请输入密码');
+                return false;
+            }
+            return true;
+        }
+    </script>

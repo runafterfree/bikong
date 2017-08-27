@@ -11,10 +11,15 @@
 
 return [
     '[user]'=> [
-        '/login/' =>['index/user/login'],
+        '/savePriceNotify/'=>['index/user/savePriceNotify'],
+        '/getSpec/' =>['index/user/getSpec'],
         '/reg/' => ['index/user/reg'],
+        '/login/' => ['index/user/login'],
         '/findpwd/'=>['index/user/findpwd'],
         '/checkValid/'=>['index/user/checkValid'],
+        '/center/'=>['index/user/center'],
+        '/delpid/'=>['index/user/delpid'],
+        '/logout/'=>['index/user/logout'],
     ],
     '[base]'=>[
         '/valicode/'=>['index/base/valicode'],

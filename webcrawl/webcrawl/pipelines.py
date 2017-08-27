@@ -32,7 +32,6 @@ class NoticeDbPipeLine(object):
 class PriceDbPipeLine(object):
     """保存最新价格到数据库"""
     def __init__(self):
-        #self.mysql = MYSQL(host="127.0.0.1", user="root", pwd="123456", db="bikong")
         self.mysql = MYSQL(host=settings['DATABASE']['host'],
                            user=settings['DATABASE']['user'],
                            pwd=settings['DATABASE']['password'],
@@ -41,6 +40,6 @@ class PriceDbPipeLine(object):
 
     def process_item(self, item, spider):
         data = dict(item)
-        self.mysql.insert('b_price', data)
+        #self.mysql.insert('b_price', data)
         self.mysql.executeNonQuery("UPDATE b_spec SET price='%s' WHERE spec_id=%s" %(data['price'], data['spec_id']))
         pass
