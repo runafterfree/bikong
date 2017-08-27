@@ -7,7 +7,7 @@ import time
 import json
 
 class JubiPriceSpider(scrapy.Spider):
-    name = 'jubi_price'
+    name = 'JubiPriceSpider'
     allowed_domains = ["jubi.com"]
 
     custom_settings = {
