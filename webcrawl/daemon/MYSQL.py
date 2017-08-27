@@ -1,7 +1,6 @@
 #coding=utf-8
 #!/usr/bin/python
 import pymysql
-from scrapy.utils.project import get_project_settings
 
 def addslashes(v):
     return v
@@ -11,19 +10,11 @@ class MYSQL:
     对pymysql的简单封装
     """
     def __init__(self,host,user,pwd,db,char="utf8"):
-        settings = get_project_settings()
-        if settings:
-            self.host=settings['DATABASE']['host']
-            self.user=settings['DATABASE']['user']
-            self.pwd=settings['DATABASE']['password']
-            self.db=settings['DATABASE']['db']
-            self.char=settings['DATABASE']['charset']
-        else:
-            self.host = host
-            self.user = user
-            self.pwd = pwd
-            self.db = db
-            self.char=char
+        self.host = host
+        self.user = user
+        self.pwd = pwd
+        self.db = db
+        self.char=char
 
     def __GetConnect(self):
         """
@@ -90,7 +81,6 @@ class MYSQL:
             for k in data:
                 sql += "'" + addslashes(str(data[k])) + "',"
             sql = sql[0:-1] + ")"
-            print(sql)
 
             with conn.cursor() as cur:
                 cur.execute(sql)
@@ -136,6 +126,6 @@ class MYSQL:
             conn.close()
 
 if __name__ == '__main__':
-    mysql = MYSQL()
-    res = mysql.insert('b_site',{'site_enname':'yunbi','site_name':'云币网','site_url':'https://yunbi.com'})
+    mysql = MYSQL(host="127.0.0.1",user="root",pwd="123456",db="bikong")
+    res = mysql.getRow('select * from b_site WHERE site_id=1')
     print(res)

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from daemon import Base
+from Base import Base
 from MYSQL import MYSQL
 import sys, time
 

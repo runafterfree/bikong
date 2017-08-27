@@ -2,8 +2,8 @@
 #coding: utf-8  
 #python模拟linux的守护进程  
 import sys, os, time, atexit, string  
-from signal import SIGTERM  
-from MYSQL import MYSQL
+from signal import SIGTERM
+from daemon.MYSQL import MYSQL
 
 class Daemon:
   def __init__(self, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):  

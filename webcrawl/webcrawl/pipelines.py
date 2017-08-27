@@ -41,5 +41,6 @@ class PriceDbPipeLine(object):
     def process_item(self, item, spider):
         data = dict(item)
         #self.mysql.insert('b_price', data)
+        print("UPDATE b_spec SET price='%s' WHERE spec_id=%s" %(data['price'], data['spec_id']))
         self.mysql.executeNonQuery("UPDATE b_spec SET price='%s' WHERE spec_id=%s" %(data['price'], data['spec_id']))
         pass

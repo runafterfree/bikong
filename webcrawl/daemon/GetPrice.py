@@ -8,18 +8,14 @@ class GetPriceDaemon():
     '''获得价格'''
 
     def run(self):
+        process = CrawlerProcess(get_project_settings())
+        to_crawl = ['YunbiPriceSpider', 'JubiPriceSpider']
         while True:
-            process = CrawlerProcess(get_project_settings())
-
-            # 'followall' is the name of one of the spiders of the project.
-            to_crawl = ['YunbiPriceSpider', 'JubiPriceSpider']
-
             for spider in to_crawl:
                 process.crawl(spider)
             process.start()  # the script will block here until the crawling is finished
+            process.stop()
             time.sleep(5)
-        pass
-    pass
 
 
 if __name__ == '__main__':

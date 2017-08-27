@@ -5,8 +5,8 @@ from email.mime.text import MIMEText
 from email.header import Header
 from yunpian_python_sdk.model import constant as YC
 from yunpian_python_sdk.ypclient import YunpianClient
-from daemon import Base
-from MYSQL import MYSQL
+from daemon.Base import Base
+from daemon.MYSQL import MYSQL
 
 
 class QueueDaemon(Base):

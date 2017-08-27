@@ -7,7 +7,6 @@ webcrawl/webcrawl/__pycache__/
 webcrawl/webcrawl/spider/__pycache__/
 webcrawl/daemon/__pycache__/
 webcrawl/webcrawl/settings.py
-webcrawl/daemon/daemon.py
 webcrawl/logs/
 application/config.php
 application/database.php
