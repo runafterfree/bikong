@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-#from daemon import Daemon
 from daemon import Base
-from webcrawl.MYSQL import MYSQL
+from webcrawl.webcrawl.MYSQL import MYSQL
 import sys, time
 
 class PriceNotify(Base):

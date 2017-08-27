@@ -88,12 +88,15 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+LOG_ENABLED = True
+LOG_LEVEL = 'ERROR'
+LOG_FILE = '/home/spider.log'
 
 DATABASE = {
     'drivername': 'mysql',
     'host': '127.0.0.1',
-    'user': 'root',
-    'password': '123456',
+    'user': 'cy',
+    'password': 'Aizhan@1405',
     'db': 'bikong',
     'charset': 'utf8'
 }
