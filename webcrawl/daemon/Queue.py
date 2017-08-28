@@ -29,7 +29,6 @@ class QueueDaemon(Base):
                         mysql.executeNonQuery("DELETE FROM b_queue WHERE queue_id=%s" % queue_id)
             except Exception as e:
                 print(str(e))
-            exit()
             time.sleep(5)
         pass
 
