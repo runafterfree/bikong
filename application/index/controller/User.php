@@ -44,7 +44,7 @@ class User extends Base
         {
             $user = Db::table('b_user')->field('uid,name,tel,pwd')->where(['name'=>$this->param['name']])->find();
             if(empty($user) || $user['pwd']!=md5($this->param['pwd']))
-                $this->error('用户名或密码不正确', 'user/login');
+                $this->error('用户名或密码不正确', '/user/login');
             Db::execute("UPDATE b_user set last_login=UNIX_TIMESTAMP() WHERE uid=".$user['uid']);
             unset($user['pwd']);
             Session::set('user', $user);
