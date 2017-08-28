@@ -34,6 +34,7 @@ class User extends Base
 
             $this->success('注册成功','/user/login/');
         }
+        $this->assign('title', '注册');
         return $this->fetch('user/reg');
     }
 
@@ -51,6 +52,7 @@ class User extends Base
             $this->success('登陆成功','/user/center/');
         }
 
+        $this->assign('title', '登陆');
         return $this->fetch('user/login');
     }
 
@@ -71,7 +73,7 @@ class User extends Base
         //获得站点
 
         //获得上线通知
-
+        $this->assign('title', '用户中心');
         return $this->fetch('user/center');
     }
 
@@ -117,9 +119,9 @@ class User extends Base
         $op = $this->param['op'];
 
         $note = $site[$site_id];
-        $note .= $spec['spec_long'].'('.$spec['spec_name'].')当前价格';
+        $note .= $spec['spec_long'].'('.$spec['spec_name'].')目前的价格';
         $note .= $op ? '小于' : '大于';
-        $note .= $price.'元，请尽快处理！';
+        $note .= $price.'元，请关注。';
         $add_time = time();
         
         Db::execute("INSERT INTO b_price_notify(uid,spec_id,op,note,tel,add_time,price) VALUES(:uid,:spec_id,:op,:note,:tel,:add_time,:price)",['uid'=>$this->user['uid'],'spec_id'=>$spec_id,'op'=>$op,'note'=>$note,'tel'=>$this->user['tel'],'add_time'=>$add_time,'price'=>$price]);

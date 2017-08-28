@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{$Think.config.app_name}</title>
+    <title>{if condition='(isset($title))'}{$title} - {/if}{$Think.config.app_name}</title>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -13,14 +13,23 @@
         <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <style>
+    footer{height:2rem;line-height:2rem;background:#333;color:#fff;position:fixed;bottom:0;width:100%;text-align:center;font-size:0.5rem;}
+    </style>
   </head>
   <body>
     <div class="page-group">
         <div class="page page-current">
         <!-- 你的html代码 -->
         {__CONTENT__}
-        </div>
-    </div>
 
+        <footer>
+        &copy; 2017{$Think.config.app_name}版权所有
+        </footer>
+        </div>
+        
+    </div>
+    
+    
   </body>
 </html>

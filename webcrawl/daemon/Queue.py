@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-import time, sys
 import smtplib
 from email.mime.text import MIMEText
 from email.header import Header
 from yunpian_python_sdk.model import constant as YC
 from yunpian_python_sdk.ypclient import YunpianClient
-from daemon.Base import Base
-from daemon.MYSQL import MYSQL
+from Base import Base
+from MYSQL import MYSQL
+import sys, time
 
 
 class QueueDaemon(Base):
@@ -21,13 +21,15 @@ class QueueDaemon(Base):
                 rows = mysql.getAll("SELECT queue_id,msg, uid, tel, email FROM b_queue LIMIT 10")
                 for row in rows:
                     queue_id, msg, uid, tel, email = row
+                    print(msg)
                     r = self.sendtel_yunpian(tel, msg)
                     if r:
                         data = {'uid':uid, 'message': msg, 'send_time': int(time.time())}
                         mysql.insert('b_price_notify_log', data)
                         mysql.executeNonQuery("DELETE FROM b_queue WHERE queue_id=%s" % queue_id)
             except Exception as e:
-                sys.stderr.write(str(e))
+                print(str(e))
+            exit()
             time.sleep(5)
         pass
 
@@ -55,7 +57,7 @@ class QueueDaemon(Base):
             smtpObj.close()
             return True
         except Exception as e:
-            sys.stderr.write(str(e))
+            print(str(e))
             return False
 
     def sendtel_yunpian(self, tel, msg):
@@ -64,7 +66,7 @@ class QueueDaemon(Base):
         param = {YC.MOBILE: tel, YC.TEXT: '【币控网】'+msg+'来自bikongwang.com！'}
         r = self.clnt.sms().single_send(param)
         if r.code():
-            sys.stderr.write(str(r.code())+':'+r.msg())
+            print(str(r.code())+':'+r.msg())
             return False
         return True
 

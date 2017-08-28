@@ -20,12 +20,12 @@ class NoticeDbPipeLine(object):
                            char=settings['DATABASE']['charset'])
 
     def process_item(self, item, spider):
-        data ={}
-        data['title'] = item['title']
-        data['site'] = item['site']
-        data['link'] = item['link']
-        data['update_time'] = item['update_time']
-        print(data['title'], data['site'], data['update_time'], data['link'], item['body'])
+        data = dict(item)
+        sql = "SELECT COUNT(*) FROM b_notice WHERE site_id=%s AND title=%s"
+        row = self.mysql.getRow(sql, (data['site_id'], data['title']))
+        if not row[0]:
+            self.mysql.insert('b_notice',data)
+        #print(data['title'], data['site_id'], data['update_time'], data['link'], item['is_online'])
         pass
 
 
@@ -42,8 +42,6 @@ class PriceDbPipeLine(object):
 
     def process_item(self, item, spider):
         data = dict(item)
-        #print(data['spec_id'],data['price'])
         #self.mysql.insert('b_price', data)
-        #print("UPDATE b_spec SET price='%s' WHERE spec_id=%s" %(data['price'], data['spec_id']))
         self.mysql.executeNonQuery("UPDATE b_spec SET price='%s' WHERE spec_id=%s" %(data['price'], data['spec_id']))
         pass
