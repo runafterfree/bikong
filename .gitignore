@@ -8,6 +8,6 @@ webcrawl/.idea/
 webcrawl/__pycache__/
 webcrawl/webcrawl/__pycache__/
 webcrawl/webcrawl/settings.py
-webcrawl/webcrawl/spider/__pycache__/
+webcrawl/webcrawl/spiders/__pycache__/
 webcrawl/daemon/__pycache__/
 webcrawl/logs/
