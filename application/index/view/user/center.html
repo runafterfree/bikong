@@ -6,7 +6,7 @@
 <div class="content">
   <div class="buttons-tab">
     <a href="#tab1" class="tab-link active button">价格通知</a>
-    <a href="#tab2" class="tab-link button">上线通知</a>
+    <a href="#tab2" class="tab-link button">站点公告</a>
     <a href="#tab3" class="tab-link button">设定</a>
   </div>
   <div class="content-block">
@@ -84,7 +84,15 @@
       </div>
       <div id="tab2" class="tab">
         <div class="content-block">
-          <p>正在加紧开发中……</p>
+          {volist name="notice" id="n"}
+          <div class="card">
+            <div class="card-content">
+              <div class="card-content-inner">
+                [{$n.update_time|date='Y-m-d',###}]<a href="{$n.link}" target="_blank">{$n.title}</a>&nbsp;&nbsp;<small>来自{$Think.config.site[$n.site_id]}</small>
+              </div>
+            </div>
+          </div>
+          {/volist}
         </div>
       </div>
       <div id="tab3" class="tab">

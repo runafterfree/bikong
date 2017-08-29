@@ -60,8 +60,7 @@ class User extends Base
     public function center()
     {
         //获得价格通知
-        //$data = Db::table('b_price_notify')->where(['uid'=>$this->user['uid']])->field('pid,uid,note,tel,add_time')->order('step asc')->select();
-        $data = Db::table('b_price_notify')->field('pid,uid,note,tel,add_time,op,price')->order('add_time desc')->select();
+        $data = Db::table('b_price_notify')->where(['uid'=>$this->user['uid'],'step'=>0])->field('pid,uid,note,tel,add_time')->order('add_time DESC')->select();
         $list = [];
         foreach($data as $val)
         {
@@ -70,9 +69,10 @@ class User extends Base
         }
         $this->assign('list', $list);
 
-        //获得站点
+        //获得站点公告
+        $notice = Db::table('b_notice')->field('title,site_id,link,is_online,update_time')->order('update_time DESC')->limit(10)->select();
+        $this->assign('notice', $notice);
 
-        //获得上线通知
         $this->assign('title', '用户中心');
         return $this->fetch('user/center');
     }
