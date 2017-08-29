@@ -21,6 +21,7 @@ class User extends Base
     //用户注册
     public function reg()
     {
+        die('请向管理员索要账号');
         if($this->isPost)
         {
             $re = $this->checkValid('add');
