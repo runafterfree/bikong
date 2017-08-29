@@ -1,6 +1,25 @@
 {layout name="layout"}
 <header class="bar bar-nav">
     <h1 class="title">币控网</h1>
+    {if condition='(!empty($Think.session.user.name))'}
+    <button class="button pull-right" onclick="window.location.href='/user/logout/';">退出</button>
+    <button class="button pull-right" onclick="window.location.href='/user/center/';">{$Think.session.user.name}</button>
+    {else /}
     <button class="button pull-right" onclick="window.location.href='/user/reg/';">注册</button>
     <button class="button pull-right" onclick="window.location.href='/user/login/';">登陆</button>
+    {/if}
 </header>
+
+<div class="content">
+    <div class="content-block">
+          {volist name="notice" id="n"}
+          <div class="card">
+            <div class="card-content">
+              <div class="card-content-inner">
+                [{$n.update_time|date='Y-m-d',###}]<a href="{$n.link}" target="_blank">{$n.title}</a>&nbsp;&nbsp;<small>来自{$Think.config.site[$n.site_id]}</small>
+              </div>
+            </div>
+          </div>
+          {/volist}
+    </div>
+</div>

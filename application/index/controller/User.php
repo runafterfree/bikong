@@ -71,8 +71,10 @@ class User extends Base
         $this->assign('list', $list);
 
         //获得站点公告
+        /*
         $notice = Db::table('b_notice')->field('title,site_id,link,is_online,update_time')->order('update_time DESC')->limit(10)->select();
         $this->assign('notice', $notice);
+        */
 
         $this->assign('title', '用户中心');
         return $this->fetch('user/center');
