@@ -1,6 +1,7 @@
 .idea
 composer.lock
 *.log
+*.out
 runtime/
 application/config.php
 application/database.php
