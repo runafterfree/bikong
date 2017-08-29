@@ -144,6 +144,7 @@ class File extends Driver
             $first = true;
         }
         $data = serialize($value);
+        $data = str_replace(PHP_EOL,'',$data);
         if ($this->options['data_compress'] && function_exists('gzcompress')) {
             //数据压缩
             $data = gzcompress($data, 3);
