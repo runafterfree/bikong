@@ -6,7 +6,7 @@ from webcrawl.items_notice import NoticeItem
 import time
 
 class YunBiNoticeSpider(scrapy.Spider):
-    name = 'YunbiNoticeSpider'
+    name = 'YunBiNoticeSpider'
     allowed_domains = ["yunbi.com"]
     start_urls = [
         'https://yunbi.com/?warning=false&lang=zh-CN'
