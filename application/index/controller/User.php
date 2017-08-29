@@ -61,7 +61,7 @@ class User extends Base
     public function center()
     {
         //获得价格通知
-        $data = Db::table('b_price_notify')->where(['uid'=>$this->user['uid'],'step'=>0])->field('pid,uid,note,tel,add_time')->order('add_time DESC')->select();
+        $data = Db::table('b_price_notify')->where(['uid'=>$this->user['uid'],'step'=>0])->field('pid,uid,note,tel,add_time,op')->order('add_time DESC')->select();
         $list = [];
         foreach($data as $val)
         {
